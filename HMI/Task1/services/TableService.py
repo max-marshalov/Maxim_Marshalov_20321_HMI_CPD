@@ -24,14 +24,13 @@ class TableService:
     
     def save_table(self):
         '''Сохраняет расходы в формат csv'''
-        self.csv_service.write_csv("Expense accounting.csv")
+        filename = filedialog.asksaveasfilename(title='Open a file', initialdir='/', filetypes=(('csv files', '*.csv'), ('All types', '*.*'))) + ".csv"
+        self.csv_service.write_csv(filename=filename)
     
     def load_table(self):
         '''Подгружает старые csv-файлы'''
         filename = filedialog.askopenfilename(
-            title='Open a file',
-            initialdir='/',
-            filetypes=(('csv files', '*.csv'), ('All files', '*.*'))
+            title='Open a file', initialdir='/', filetypes=(('csv files', '*.csv'), ('All files', '*.*'))
         )
         self.csv_service.read_csv(filename=filename)
         
