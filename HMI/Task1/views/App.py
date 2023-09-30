@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from tkinter import ttk
 import tkcalendar
+from services.TableService import TableService
 class App(ctk.CTk):
     "Данный класс инициализирует приложение и его основные views"
     def __init__(self):
@@ -47,15 +48,20 @@ class App(ctk.CTk):
 
         self.table.grid(row=0, column=0, sticky="nsew")
 
+        '''Инициализация сервисов'''
+        self.table_service = TableService(self.calendar, self.category_entry, self.price_entry, self.table)
+
         '''Инициализация CRUD фрейма (Create, Read, Update, Delete), в нем располагаются кнопки для добавления данных, удаления, загрузки, сохранения
         А также есть возможность просмотра Общей суммы'''
 
-        self.add_button = ctk.CTkButton(self.crud_frame, text="Добавить")
-        self.remove_button = ctk.CTkButton(self.crud_frame, text="Удалить")
-        self.save_button = ctk.CTkButton(self.crud_frame, text="Сохранить таблицу")
-        self.load_button = ctk.CTkButton(self.crud_frame, text="загрузить")
+        self.add_button = ctk.CTkButton(self.crud_frame, text="Добавить", command=self.table_service.add_entry)
+        self.remove_button = ctk.CTkButton(self.crud_frame, text="Удалить", command=self.table_service.delete_entry)
+        self.save_button = ctk.CTkButton(self.crud_frame, text="Сохранить таблицу",command=self.table_service.save_table)
+        self.load_button = ctk.CTkButton(self.crud_frame, text="Загрузить", command=self.table_service.load_table)
 
         self.add_button.grid(row=0, column=0, padx=5, pady=5)
         self.remove_button.grid(row=0, column=1, padx=5, pady=5)
         self.save_button.grid(row=0, column=2, padx=5, pady=5)
         self.load_button.grid(row=0, column=3, padx=5, pady=5)
+        
+
