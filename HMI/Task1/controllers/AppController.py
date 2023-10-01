@@ -1,3 +1,9 @@
+##
+# @author Maxim Marshalov <marshalmaxim@gmail.com>
+ # @file Description
+ # @desc Created on 2023-10-01 3:26:37 pm
+ # @copyright SMTU
+ #
 import tkinter as tk
 from tkinter import filedialog
 from services.CsvService import CsvService

@@ -1,3 +1,10 @@
+##
+# @author Maxim Marshalov <marshalmaxim@gmail.com>
+ # @file Description
+ # @desc Created on 2023-10-01 3:26:04 pm
+ # @copyright SMTU
+ #
+
 class ValidationService:
     '''Сервис, который хранит в себе механизмы валидации'''
     def __init__(self):

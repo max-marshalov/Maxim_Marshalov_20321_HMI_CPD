@@ -1,3 +1,9 @@
+##
+# @author Maxim Marshalov <marshalmaxim@gmail.com>
+ # @file Description
+ # @desc Created on 2023-10-01 3:26:47 pm
+ # @copyright SMTU
+ #
 import customtkinter as ctk
 from tkinter import ttk
 import tkcalendar
