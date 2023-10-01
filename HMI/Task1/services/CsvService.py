@@ -1,7 +1,9 @@
 import csv
 import tkinter as tk
 class CsvService:
+    '''Сервис, предназначенный для чтения и записи csv файлов'''
     def __init__(self, table) -> None:
+        '''Принимает ссылку на таблицу, для отображения'''
         self._table = table
 
     def write_csv(self, filename):

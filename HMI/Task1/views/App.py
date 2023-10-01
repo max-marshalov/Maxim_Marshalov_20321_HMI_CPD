@@ -1,7 +1,8 @@
 import customtkinter as ctk
 from tkinter import ttk
 import tkcalendar
-from services.TableService import TableService
+from controllers.AppController import AppController
+from services.ValidationService import ValidationService
 class App(ctk.CTk):
     "Данный класс инициализирует приложение и его основные views"
     def __init__(self):
@@ -9,6 +10,9 @@ class App(ctk.CTk):
         self.title("Expense accounting")
         self.geometry("600x600")
         ctk.set_appearance_mode("dark")
+        self.validation_service = ValidationService()
+        self.category_validate = (self.register(self.validation_service.only_symbols_validation), '%P')
+        self.price_validate = (self.register(self.validation_service.only_numbers_validation), '%P')
         '''Инициализация фреймов'''
         self.input_frame = ctk.CTkFrame(self, width=600)
         self.table_frame = ctk.CTkFrame(self, width=600)
@@ -23,8 +27,8 @@ class App(ctk.CTk):
         self.price_label = ctk.CTkLabel(self.input_frame, text="Сумма")
         '''Инициализация полей для ввода'''
         self.calendar = tkcalendar.Calendar(self.input_frame, selectmode='day',showweeknumbers=False, cursor="hand2", date_pattern= 'y-mm-dd',borderwidth=0, bordercolor='white',)
-        self.category_entry = ctk.CTkEntry(self.input_frame)
-        self.price_entry = ctk.CTkEntry(self.input_frame)
+        self.category_entry = ttk.Entry(self.input_frame, validate='key', validatecommand=self.category_validate)
+        self.price_entry = ttk.Entry(self.input_frame, validate='key', validatecommand=self.price_validate)
         '''Размещение внутри фрейма ввода'''
         self.date_label.grid(row=0, column=0, padx=5, pady=5)
         self.category_label.grid(row=1, column=0, padx=5, pady=5)
@@ -48,20 +52,18 @@ class App(ctk.CTk):
 
         self.table.grid(row=0, column=0, sticky="nsew")
 
-        '''Инициализация сервисов'''
-        self.table_service = TableService(self.calendar, self.category_entry, self.price_entry, self.table)
+        self.app_controller = AppController(self.calendar, self.category_entry, self.price_entry, self.table)
 
         '''Инициализация CRUD фрейма (Create, Read, Update, Delete), в нем располагаются кнопки для добавления данных, удаления, загрузки, сохранения
         А также есть возможность просмотра Общей суммы'''
-
-        self.add_button = ctk.CTkButton(self.crud_frame, text="Добавить", command=self.table_service.add_entry)
-        self.remove_button = ctk.CTkButton(self.crud_frame, text="Удалить", command=self.table_service.delete_entry)
-        self.save_button = ctk.CTkButton(self.crud_frame, text="Сохранить таблицу",command=self.table_service.save_table)
-        self.load_button = ctk.CTkButton(self.crud_frame, text="Загрузить", command=self.table_service.load_table)
+        
+        self.add_button = ctk.CTkButton(self.crud_frame, text="Добавить", command=self.app_controller.add_entry)
+        self.remove_button = ctk.CTkButton(self.crud_frame, text="Удалить", command=self.app_controller.delete_entry)
+        self.save_button = ctk.CTkButton(self.crud_frame, text="Сохранить таблицу",command=self.app_controller.save_table)
+        self.load_button = ctk.CTkButton(self.crud_frame, text="Загрузить", command=self.app_controller.load_table)
 
         self.add_button.grid(row=0, column=0, padx=5, pady=5)
         self.remove_button.grid(row=0, column=1, padx=5, pady=5)
         self.save_button.grid(row=0, column=2, padx=5, pady=5)
         self.load_button.grid(row=0, column=3, padx=5, pady=5)
-        
 

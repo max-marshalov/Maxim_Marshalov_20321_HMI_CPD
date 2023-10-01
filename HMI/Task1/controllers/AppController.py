@@ -1,17 +1,16 @@
 import tkinter as tk
 from tkinter import filedialog
 from services.CsvService import CsvService
-class TableService:
+class AppController:
+    '''Контроллер приложения, обрабатывает все события от кнопок и полей ввода '''
     def __init__(self, date_field, category_field, price_field, table) -> None:
         '''В конструктор необходимо передать ссылку на объект календаря, поля категории, поля стоимости 
-        и ссылку на таблицу, для отобраэения'''
+        и ссылку на таблицу, для отображения'''
         self._table = table
         self._date_field = date_field
         self._categroy_field= category_field 
         self._price_filed = price_field
         self.csv_service = CsvService(self._table)
-        
-        
 
     def add_entry(self):
         '''Добавляет в таблицу новую запись'''
