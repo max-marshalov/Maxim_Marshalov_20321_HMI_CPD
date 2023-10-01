@@ -2,15 +2,17 @@ import tkinter as tk
 from tkinter import filedialog
 from services.CsvService import CsvService
 class AppController:
-    '''Контроллер приложения, обрабатывает все события от кнопок и полей ввода '''
     def __init__(self, date_field, category_field, price_field, table) -> None:
-        '''В конструктор необходимо передать ссылку на объект календаря, поля категории, поля стоимости 
-        и ссылку на таблицу, для отображения'''
+        '''Контроллер приложения, обрабатывает все события от кнопок и полей ввода.\n
+        В конструктор необходимо передать ссылку на объект календаря, поля категории, поля стоимости 
+        и ссылку на таблицу для отображения'''
         self._table = table
         self._date_field = date_field
         self._categroy_field= category_field 
         self._price_filed = price_field
         self.csv_service = CsvService(self._table)
+        self.total_message = tk.DoubleVar()
+        self._total = 0
 
     def add_entry(self):
         '''Добавляет в таблицу новую запись'''
@@ -32,4 +34,12 @@ class AppController:
             title='Open a file', initialdir='/', filetypes=(('csv files', '*.csv'), ('All files', '*.*'))
         )
         self.csv_service.read_csv(filename=filename)
+
+    def calculate_total(self, event):
+        '''Считает общую сумму'''
+        self._total = 0
+        for item in self._table.get_children():
+            self._total += float(self._table.item(item)['values'][-1])
+        self.total_message.set(self._total)
+             
         
