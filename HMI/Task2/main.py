@@ -1,3 +1,9 @@
+##
+# @author Maxim Marshalov <marshalmaxim@gmail.com>
+ # @file Description
+ # @desc Created on 2023-10-02 10:05:56 am
+ # @copyright SMTU
+ #
 from core.Vertex import Vertex
 from core.Link import Link
 from core.LinkedGraph import LinkedGraph

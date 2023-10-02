@@ -1,12 +1,18 @@
+##
+# @author Maxim Marshalov <marshalmaxim@gmail.com>
+ # @file Description
+ # @desc Created on 2023-10-02 10:05:26 am
+ # @copyright SMTU
+ #
 import Link
 class LinkedGraph:
     def __init__(self) -> None:
-        self._links = []
-        self._vertex = []
+        self.__links = []
+        self.__vertex = []
     
     def add_vertex(self, v):
-        if v not in self._vertex:
-            self._vertex.append(v)
+        if v not in self.__vertex:
+            self.__vertex.append(v)
 
 
     def add_link(self, link):
