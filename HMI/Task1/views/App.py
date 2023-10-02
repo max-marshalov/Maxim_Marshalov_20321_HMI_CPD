@@ -39,8 +39,8 @@ class App(ctk.CTk):
 
         #Инициализация полей для ввода
         self.calendar = tkcalendar.Calendar(self.input_frame, selectmode='day',showweeknumbers=False, cursor="hand2", date_pattern= 'y-mm-dd',borderwidth=0, bordercolor='white',)
-        self.category_entry = ttk.Entry(self.input_frame, validate='key', validatecommand=self.category_validate)
-        self.price_entry = ttk.Entry(self.input_frame, validate='key', validatecommand=self.price_validate)
+        self.category_entry = ctk.CTkEntry(self.input_frame, validate='key', validatecommand=self.category_validate)
+        self.price_entry = ctk.CTkEntry(self.input_frame, validate='key', validatecommand=self.price_validate)
 
         #Размещение внутри фрейма ввода
         self.date_label.grid(row=0, column=0, padx=5, pady=5)
