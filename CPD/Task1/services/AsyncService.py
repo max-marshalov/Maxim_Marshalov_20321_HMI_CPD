@@ -17,7 +17,7 @@ class AsyncService:
         self.__os_service = self.__process_window_controller.os_processes_service
 
         self.__tasks.append(self.__loop.create_task(self.processes_updater()))
-        self.semaphore = asyncio.Semaphore(5)
+        self.semaphore = asyncio.Semaphore(10)
     
 
     async def processes_updater(self):
@@ -31,7 +31,7 @@ class AsyncService:
          while True:
             try:
                 if self.__os_service.sort_flag != self.__os_service.old_flag:
-                    self.semaphore = asyncio.Semaphore(5)
+                    self.semaphore = asyncio.Semaphore(10)
                     async with self.semaphore:
                         await self.semaphore.acquire()
                         try:
