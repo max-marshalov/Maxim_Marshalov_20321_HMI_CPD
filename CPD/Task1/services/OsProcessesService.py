@@ -9,10 +9,12 @@ class OsProcessesService:
     def __init__(self) -> None:
         '''Сервис для получения информации о процессах от OC'''
         self.__cpu_count = psutil.cpu_count()
+        self.__cpu_percent = psutil.cpu_percent()
+        self.__memory_usage = psutil.virtual_memory().percent
         self.__virtual_memory = psutil.virtual_memory().total
         self.__disk_usage = psutil.disk_usage('/')
         self.__network_upload = psutil.net_io_counters()[0]
-        self.__network_dowload = psutil.net_connections()[1]
+        self.__network_download = psutil.net_connections()[1]
         self.__sort_flag = 'pid'
         self.__old_flag = self.__sort_flag
         self.__procs = []
@@ -32,6 +34,9 @@ class OsProcessesService:
     
     def change_sort_flag(self, value:str):
         self.sort_flag = value
+    
+    def values_as_dict(self):
+        return {"CPU":self.__cpu_percent, "Memory":self.__memory_usage, "Disk usage":self.__disk_usage, "Network Dowload":self.__network_download, "Network Upload":self.__network_upload}
             
     
     @property
@@ -63,7 +68,7 @@ class OsProcessesService:
         return self.__network_upload
     @property
     def network_download(self):
-        return self.__network_dowload
+        return self.__network_download
     @property
     def disk_usage(self):
         return self.__disk_usage

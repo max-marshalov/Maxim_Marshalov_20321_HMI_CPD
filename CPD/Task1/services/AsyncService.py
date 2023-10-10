@@ -15,13 +15,15 @@ class AsyncService:
         self.__app.protocol("WM_DELETE_WINDOW", self.close)
         self.__process_window_controller = self.__app.process_window.process_controller
         self.__os_service = self.__process_window_controller.os_processes_service
+        self.__performance_window_controller = self.__app.performance_window.performance_controller
 
         self.__tasks.append(self.__loop.create_task(self.processes_updater()))
+        #self.__tasks.append(self.__loop.create_task(self.graphics_updater()))
         self.semaphore = asyncio.Semaphore(10)
     
 
     async def processes_updater(self):
-         '''Функция асинхронного цикла'''
+         '''Функция асинхронного обновления'''
          async with self.semaphore:
             await self.semaphore.acquire()
             try:
@@ -41,8 +43,17 @@ class AsyncService:
                             self.semaphore.release()
                 self.__process_window_controller.update_processes()
                 self.__app.update()
+                self.graphics_updater()
                 await asyncio.sleep(self.__interval)
             except Exception as e:
+                print(e)
+    def graphics_updater(self):
+        '''Функция асинхронной отрисовки графиков'''
+
+        try:
+            self.__performance_window_controller.plotting_service.plot_charts()
+
+        except Exception as e:
                 print(e)
     
     def processes_sorter(self):

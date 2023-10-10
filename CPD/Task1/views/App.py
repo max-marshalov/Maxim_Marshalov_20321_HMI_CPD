@@ -27,7 +27,7 @@ class App(ctk.CTk):
 
         #Инициализируем окна
         self.process_window = ProccessWindow(self.process_tab)
-        self.performance_tab = PerformanceWindow(self.performance_tab)
+        self.performance_window = PerformanceWindow(self.performance_tab)
         
         self.async_service = AsyncService(self)
         self.protocol("WM_DELETE_WINDOW", self.async_service.close)
