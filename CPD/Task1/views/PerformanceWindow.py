@@ -32,3 +32,11 @@ class PerformanceWindow:
         self.__ax.set_xlim(1, 100)
         self.__canvas = FigureCanvasTkAgg(self.__fig, self.__plot_frame)
         self.__canvas.get_tk_widget().grid(row=0, column=0, padx=5, pady=5)
+
+    @property
+    def axes(self):
+        return self.__ax
+    
+    @property
+    def figure(self):
+        return self.__fig

@@ -8,6 +8,7 @@ import tkinter as tk
 from tkinter import ttk
 import customtkinter as ctk
 from controllers.ProcessWindowController import ProcessWindowController
+from services.ValidationService import ValidationService
 class ProccessWindow:
     def __init__(self, tab: ctk.CTkTabview) -> None:
         super().__init__()
@@ -15,6 +16,7 @@ class ProccessWindow:
         В конструктор необходимо передать вкладку, к которой надо прикрепить view'''
         self.__tab = tab
         self.__tab.grid_columnconfigure(1, weight=1)
+        self.__validation_service = ValidationService()
 
         #Инициализируем и размещаем фреймы
         self.__search_frame = ctk.CTkFrame(self.__tab, width=600, height=50)

@@ -21,6 +21,7 @@ class AsyncService:
     
 
     async def processes_updater(self):
+         '''Функция асинхронного цикла'''
          async with self.semaphore:
             await self.semaphore.acquire()
             try:
@@ -45,6 +46,7 @@ class AsyncService:
                 print(e)
     
     def processes_sorter(self):
+            '''Функция асинхронной сортировки процессов'''
             try:
                     self.__app.process_window.table.delete(*self.__app.process_window.table.get_children())
                     self.__os_service.procs.clear()
