@@ -160,3 +160,4 @@ cython_debug/
 #.idea/
 Expense accounting.csv
 CPD/Task1/oldVersion.py
+.vscode/settings.json
