@@ -10,7 +10,7 @@ import proto_example_pb2
 HOST = 'localhost'
 PORT = 8080
 data = proto_example_pb2.Message()
-data.msg = "Hello world"
+data.msg = "Hello proto"
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as socket:
     socket.connect((HOST, PORT))

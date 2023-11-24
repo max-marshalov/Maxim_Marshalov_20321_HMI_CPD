@@ -9,7 +9,7 @@ import pickle
 import time
 HOST = 'localhost'
 PORT = 8080
-data = {'data': "Hello world",
+data = {'data': "Hello pickle",
         'type': ("character string", b"byte string")
         }
 
