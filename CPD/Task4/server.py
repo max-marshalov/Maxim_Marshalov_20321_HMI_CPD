@@ -35,12 +35,12 @@ class VideoServer():
 
     def readData(self):
         data = bytes()
-        payload_size = struct.calcsize("H") 
+        payload_size = struct.calcsize("!L") 
         while len(data) < payload_size:
             data += self.clientConnection.readAll().data()
         packed_msg_size = data[:payload_size]
         data = data[payload_size:]
-        msg_size = struct.unpack("H", packed_msg_size)[0]
+        msg_size = struct.unpack("!L", packed_msg_size)[0]
         while len(data) < msg_size:
             data += self.clientConnection.readAll().data()
         frame_data = data[:msg_size]
