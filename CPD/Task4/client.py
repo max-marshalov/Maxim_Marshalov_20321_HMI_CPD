@@ -8,6 +8,7 @@ import socket
 import cv2 
 import time
 import video_msg_pb2
+import struct
 vid = cv2.VideoCapture(0)
 HOST = 'localhost'
 PORT = 8080
@@ -19,9 +20,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as socket:
         r, buf = cv2.imencode(".jpg", frame)
         msg.frame = buf.tobytes()
         msg.id = len(buf.tobytes())
-        # time.sleep(2)
         send_frame = msg.SerializeToString()
-        socket.send(send_frame)
+        socket.sendall(struct.pack("H", len(send_frame)) + send_frame)
         print(len(send_frame))
         cv2.imshow('client', frame)
         if cv2.waitKey(1) & 0xFF == ord('q'): 
