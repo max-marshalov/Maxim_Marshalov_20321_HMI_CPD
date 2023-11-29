@@ -21,7 +21,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as socket:
         msg.frame = buf.tobytes()
         msg.id = len(buf.tobytes())
         send_frame = msg.SerializeToString()
-        socket.sendall(struct.pack("!L", len(send_frame)) + send_frame)
+        socket.sendall(struct.pack("q", len(send_frame)) + send_frame)
         print(len(send_frame))
         cv2.imshow('client', frame)
         if cv2.waitKey(1) & 0xFF == ord('q'): 
