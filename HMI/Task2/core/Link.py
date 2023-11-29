@@ -5,10 +5,10 @@
  # @copyright SMTU
  #
 class Link:
-    def __init__(self , v1, v2):
+    def __init__(self , v1, v2, dist=1):
         self.__v1 = v1
         self.__v2 = v2
-        self.__dist = 1
+        self.__dist = dist
     @property
     def v1(self):
         return self.__v1
