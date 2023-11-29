@@ -5,7 +5,7 @@
  # @copyright SMTU
  #
 import tkinter as tk
-from tkinter import filedialog
+from tkinter import filedialog, messagebox
 from services.CsvService import CsvService
 class AppController:
     def __init__(self, date_field, category_field, price_field, table) -> None:
@@ -31,15 +31,21 @@ class AppController:
     
     def save_table(self):
         '''Сохраняет расходы в формат csv'''
-        filename = filedialog.asksaveasfilename(title='Open a file', initialdir='/', filetypes=(('csv files', '*.csv'), ('All types', '*.*'))) + ".csv"
-        self.csv_service.write_csv(filename=filename)
+        try:
+            filename = filedialog.asksaveasfilename(title='Open a file', initialdir='/', filetypes=(('csv files', '*.csv'), ('All types', '*.*'))) + ".csv"
+            self.csv_service.write_csv(filename=filename)
+        except Exception:
+            messagebox.showerror("Предупреждение", "Файл не был сохранен")
     
     def load_table(self):
         '''Подгружает старые csv-файлы'''
-        filename = filedialog.askopenfilename(
-            title='Open a file', initialdir='/', filetypes=(('csv files', '*.csv'), ('All files', '*.*'))
-        )
-        self.csv_service.read_csv(filename=filename)
+        try:
+            filename = filedialog.askopenfilename(
+                title='Open a file', initialdir='/', filetypes=(('csv files', '*.csv'), ('All files', '*.*'))
+            )
+            self.csv_service.read_csv(filename=filename)
+        except FileNotFoundError:
+            messagebox.showerror("Предупреждение", "Файл не был выбран")
 
     def calculate_total(self, event):
         '''Считает общую сумму'''
