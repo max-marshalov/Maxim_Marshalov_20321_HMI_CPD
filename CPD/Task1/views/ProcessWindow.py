@@ -17,6 +17,7 @@ class ProccessWindow:
         self.__tab = tab
         self.__tab.grid_columnconfigure(1, weight=1)
         self.__validation_service = ValidationService()
+        self.process_controller = ProcessWindowController(self)
 
         #Инициализируем и размещаем фреймы
         self.__search_frame = ctk.CTkFrame(self.__tab, width=600, height=50)
@@ -28,8 +29,8 @@ class ProccessWindow:
         self.__table_frame.grid_rowconfigure(0, weight=1)
 
         #Инициализируем и размещаем поиск
-        self.__search_entry = ctk.CTkEntry(self.__search_frame, placeholder_text="Search")
-        self.__search_btn = ctk.CTkButton(self.__search_frame, text="Поиск")
+        self.__search_entry = ctk.CTkEntry(self.__search_frame, placeholder_text="Поиск")
+        self.__search_btn = ctk.CTkButton(self.__search_frame, text="Поиск", command=self.process_controller.search_process)
 
         self.__search_entry.grid(row=0, column=0, padx=5, pady=5)
         self.__search_btn.grid(row=0, column=1, padx=5, pady=5)
@@ -38,7 +39,6 @@ class ProccessWindow:
         self.__scrollbar = ctk.CTkScrollbar(self.__table_frame, orientation="vertical")
         self.__scrollbar.grid(row=0, column=1, sticky="ns")
 
-        self.process_controller = ProcessWindowController(self)
         #Инициализация  и размещение таблицы
         self.__table = ttk.Treeview(self.__table_frame, columns=("PID", "Name", "CPU", "Memory", "Network"), yscrollcommand=self.__scrollbar.set, show="headings") # yscrollcommand=self.scrollbar.set
         self.__table.heading("PID", text="PID", command=lambda:self.process_controller.os_processes_service.change_sort_flag('pid'))
@@ -58,11 +58,9 @@ class ProccessWindow:
         self.__tab.grid_columnconfigure(0, weight=1)
 
         #Инициализация и размещение кнопки удаления
-        self.__remove_process_btn = ctk.CTkButton(self.__table_frame, text="Снять задачу")
+        self.__remove_process_btn = ctk.CTkButton(self.__table_frame, text="Снять задачу", command=self.process_controller.kill_process)
         self.__remove_process_btn.grid(row=1, column=0, padx=5, pady=5)
 
-        #Инициализация контроллеров
-        
 
 
         #Определяем property

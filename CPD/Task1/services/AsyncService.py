@@ -19,7 +19,7 @@ class AsyncService:
 
         self.__tasks.append(self.__loop.create_task(self.processes_updater()))
         #self.__tasks.append(self.__loop.create_task(self.graphics_updater()))
-        self.semaphore = asyncio.Semaphore(10)
+        self.semaphore = asyncio.Semaphore(5)
     
 
     async def processes_updater(self):
@@ -34,7 +34,7 @@ class AsyncService:
          while True:
             try:
                 if self.__os_service.sort_flag != self.__os_service.old_flag:
-                    self.semaphore = asyncio.Semaphore(10)
+                    self.semaphore = asyncio.Semaphore(5)
                     async with self.semaphore:
                         await self.semaphore.acquire()
                         try:
@@ -46,7 +46,7 @@ class AsyncService:
                 self.graphics_updater()
                 await asyncio.sleep(self.__interval)
             except Exception as e:
-                print(e)
+                pass
     def graphics_updater(self):
         '''Функция асинхронной отрисовки графиков'''
 
@@ -64,7 +64,7 @@ class AsyncService:
                     self.__process_window_controller.add_processes()
                     self.__os_service.change_old_flag()
             except Exception as e:
-                print(e)
+                pass
 
     def close(self):
         for task in self.__tasks:
