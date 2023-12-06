@@ -14,7 +14,9 @@ from PySide6.QtNetwork import *
 from PySide6.QtWidgets import *
 import video_msg_pb2
 import struct
-
+import cv2
+from PIL import Image
+import numpy as np
 class VideoServer():
     def __init__(self, obj, port):
         self.tcpServer = QTcpServer()
@@ -51,8 +53,17 @@ class VideoServer():
         self.show_data()
     def show_data(self):
             self.msg.ParseFromString(self.serialize_data)
+            a = self.msg.frame
             
+            img = cv2.imdecode(np.frombuffer(a, np.uint8), cv2.IMREAD_COLOR)
+            #rgb_img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
+            resized_up = cv2.resize(img, (self.msg.width, self.msg.hight), interpolation= cv2.INTER_LANCZOS4)
+            kernel = np.array([[0, -1, 0], [-1, 5, -1], [0, -1, 0]]) 
+        
+            sharpened_image = cv2.filter2D(resized_up, -1, kernel) 
+            
+            _, frame = cv2.imencode(".jpg", sharpened_image)
             picture = QPixmap()
-            picture.loadFromData(self.msg.frame)
+            picture.loadFromData(frame.tobytes())
             self.main_window.image.setPixmap(picture)
             self.serialize_data = bytes()

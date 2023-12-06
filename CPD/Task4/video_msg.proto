@@ -3,4 +3,6 @@ package video;
 message VideoMessage {
     optional bytes frame = 1;
     optional int32 id = 2;
+    optional int32 hight = 3;
+    optional int32 width = 4;
 }
