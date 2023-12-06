@@ -34,6 +34,7 @@ class VideoServer():
          self.clientConnection.readyRead.connect(self.readData)
 
     def readData(self):
+        
         data = bytes()
         payload_size = struct.calcsize("q") 
         while len(data) < payload_size:
@@ -46,11 +47,11 @@ class VideoServer():
         frame_data = data[:msg_size]
         data = data[msg_size:]
         self.serialize_data = frame_data
+        print(len(self.serialize_data))
         self.show_data()
     def show_data(self):
             self.msg.ParseFromString(self.serialize_data)
-            print(len(self.serialize_data))
-            print(len(self.msg.frame))
+            
             picture = QPixmap()
             picture.loadFromData(self.msg.frame)
             self.main_window.image.setPixmap(picture)

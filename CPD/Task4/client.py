@@ -9,7 +9,7 @@ import cv2
 import time
 import video_msg_pb2
 import struct
-vid = cv2.VideoCapture(0)
+vid = cv2.VideoCapture("videos/Cumulus_Clouds_720.mp4")
 HOST = 'localhost'
 PORT = 8080
 msg = video_msg_pb2.VideoMessage()
@@ -17,7 +17,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as socket:
     socket.connect((HOST, PORT))
     while True:
         r, frame = vid.read()
-        r, buf = cv2.imencode(".jpg", frame)
+        compressed_frame = cv2.resize(frame, (352, 288), interpolation=cv2.INTER_AREA)
+        r, buf = cv2.imencode(".jpg", compressed_frame)
         msg.frame = buf.tobytes()
         msg.id = len(buf.tobytes())
         send_frame = msg.SerializeToString()
