@@ -49,3 +49,4 @@ if __name__ == '__main__':
     assert str(path[0]) == '[1, 2, 3, 4, 5]', path[0]
     s = sum([x.dist for x in path[1]])
     assert s == 7, "неверная суммарная длина маршрута для карты метро"
+    print("Passed")
