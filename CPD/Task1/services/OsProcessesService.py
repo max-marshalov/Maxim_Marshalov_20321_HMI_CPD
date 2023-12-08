@@ -33,7 +33,7 @@ class OsProcessesService:
         try:
             return sorted(self.__get_processes(), key=lambda p : p.info[self.__sort_flag], reverse=True)
         except Exception as e:
-            print(e)
+            pass
     def get_processes_names(self):
         return psutil.process_iter(attrs=['name'])
     def change_old_flag(self):

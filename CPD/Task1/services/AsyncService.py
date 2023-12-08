@@ -5,6 +5,7 @@
  # @copyright SMTU
  #
 import asyncio
+
 class AsyncService:
     def __init__(self,app, interval=1/20) -> None:
         '''В этом классе выполняются все асинхронные процессы'''
@@ -20,7 +21,6 @@ class AsyncService:
         self.__tasks.append(self.__loop.create_task(self.processes_updater()))
         #self.__tasks.append(self.__loop.create_task(self.graphics_updater()))
         self.semaphore = asyncio.Semaphore(5)
-    
 
     async def processes_updater(self):
          '''Функция асинхронного обновления'''
@@ -45,11 +45,10 @@ class AsyncService:
                 self.__app.update()
                 self.graphics_updater()
                 await asyncio.sleep(self.__interval)
-            except Exception as e:
+            except Exception as _:
                 pass
     def graphics_updater(self):
-        '''Функция асинхронной отрисовки графиков'''
-
+        '''Функция  отрисовки графиков'''
         try:
             self.__performance_window_controller.plotting_service.plot_charts()
 
@@ -57,13 +56,13 @@ class AsyncService:
                 print(e)
     
     def processes_sorter(self):
-            '''Функция асинхронной сортировки процессов'''
+            '''Функция  сортировки процессов'''
             try:
                     self.__app.process_window.table.delete(*self.__app.process_window.table.get_children())
                     self.__os_service.procs.clear()
                     self.__process_window_controller.add_processes()
                     self.__os_service.change_old_flag()
-            except Exception as e:
+            except Exception as _:
                 pass
 
     def close(self):

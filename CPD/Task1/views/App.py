@@ -6,9 +6,11 @@
  #
 
 import customtkinter as ctk
-from views.ProcessWindow import ProccessWindow
-from views.PerformanceWindow import PerformanceWindow
 from services.AsyncService import AsyncService
+
+from views.PerformanceWindow import PerformanceWindow
+from views.ProcessWindow import ProccessWindow
+
 class App(ctk.CTk):
     '''Даннный класс реализует в себе механизм отображения различных окон приложения'''
     def __init__(self, loop):

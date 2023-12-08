@@ -6,6 +6,8 @@
  #
 # from views.PerformanceWindow import PerformanceWindow
 from services.PlottingService import PlottingService
+
+
 class PerformanceWindowController:
     def __init__(self, window) -> None:
         self.__window = window
