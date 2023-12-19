@@ -4,6 +4,7 @@
  # @desc Created on 2023-10-04 10:47:48 am
  # @copyright SMTU
  #
+from turtle import update
 from controllers.Ship import Ship
 from random import randint, choice
 class GamePole:
@@ -57,9 +58,19 @@ class GamePole:
                     self._pole[i][x] = ship._cells[index]
             ship.set_start_coords(x, y)
     def show(self):
+        self.update_pole()
         for row in self._pole:
             print(" ".join([str (v) for v in row]))
-        
+    
+    def secret_show(self):
+        self.update_pole()
+        for row in self._pole:
+            for v in row :
+                if v != 2:
+                    print("#", end=" ")
+                else:
+                    print(str(v), end=" ")
+            print("\n", end="")
     
     def get_pole(self):
         return tuple(tuple(i) for i in self._pole)
