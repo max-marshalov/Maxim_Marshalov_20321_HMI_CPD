@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="bug">
+    <file>bug.png</file>
+  </qresource>
+</RCC>
