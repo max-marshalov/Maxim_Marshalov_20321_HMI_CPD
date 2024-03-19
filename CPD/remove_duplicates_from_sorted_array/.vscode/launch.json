@@ -1,0 +1,45 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'remove_duplicates_from_sorted_array'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=remove_duplicates_from_sorted_array",
+                    "--package=remove_duplicates_from_sorted_array"
+                ],
+                "filter": {
+                    "name": "remove_duplicates_from_sorted_array",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'remove_duplicates_from_sorted_array'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=remove_duplicates_from_sorted_array",
+                    "--package=remove_duplicates_from_sorted_array"
+                ],
+                "filter": {
+                    "name": "remove_duplicates_from_sorted_array",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}
