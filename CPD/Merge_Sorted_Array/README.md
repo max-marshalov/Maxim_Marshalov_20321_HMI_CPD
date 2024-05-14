@@ -1,3 +1,5 @@
+# Исходный код
+``` rust
 fn main() {
     let mut nums1 = vec![1,2,3,0,0,0];
     let nums2 = vec![2,5,6];
@@ -11,3 +13,6 @@ fn main() {
     println!("{:?}", nums1)
     
 }
+```
+# Результат работы
+<image src="images/out.png" alt="img">

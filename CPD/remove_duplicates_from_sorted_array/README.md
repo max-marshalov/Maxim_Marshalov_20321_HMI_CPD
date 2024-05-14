@@ -1,3 +1,5 @@
+# Исходный код
+``` rust
 fn remove_duplicates(nums: &mut Vec<i32>) -> i32 {
         let mut j = 1;
         for i in 1..nums.len(){
@@ -13,3 +15,7 @@ fn main() {
    println!("{:?}", nums);
    println!("{:?}", remove_duplicates(&mut nums));
 }
+
+```
+# Результат работы
+<image src="images/out.png" alt="img">

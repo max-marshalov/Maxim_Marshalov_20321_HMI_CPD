@@ -1,4 +1,4 @@
-impl Solution {
+
     pub fn length_of_last_word(s: String) -> i32 {
         let mut vect:Vec<i32> = Vec::new();
     let byte = s.as_bytes();
@@ -22,4 +22,6 @@ impl Solution {
     }
     return vect.pop().unwrap();
     }
+fn main(){
+    println!("{:?}", length_of_last_word(String::from("hello world")))
 }

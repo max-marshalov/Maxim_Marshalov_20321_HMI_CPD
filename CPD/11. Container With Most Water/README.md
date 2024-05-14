@@ -1,3 +1,5 @@
+# Исходный код
+``` rust
 use std::cmp::{min, max};
     pub fn max_area(height: Vec<i32>) -> i32 {
         let mut biggest = 0;
@@ -14,7 +16,7 @@ use std::cmp::{min, max};
 
     }
     return biggest;
-    }
-fn main(){
-    println!("{:?}", max_area(vec![1,8,6,2,5,4,8,3,7]))
-}
+    }  
+```
+# Результат работы
+<image src="images/out.png" alt="img">

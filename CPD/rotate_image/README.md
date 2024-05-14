@@ -23,4 +23,4 @@ pub fn rotate(matrix: &mut Vec<Vec<i32>>) {
 }
 ```
 # Результат работы
-<image src="images/result.png" alt="solve">
+<image src="images/out.png" alt="solve">

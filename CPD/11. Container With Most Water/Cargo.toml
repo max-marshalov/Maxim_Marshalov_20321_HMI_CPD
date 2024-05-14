@@ -1,5 +1,5 @@
 [package]
-name = "11 Container With Most Water"
+name = "Container_With_Most_Water"
 version = "0.1.0"
 edition = "2021"
 

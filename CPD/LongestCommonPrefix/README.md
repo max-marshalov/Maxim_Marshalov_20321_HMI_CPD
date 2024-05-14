@@ -1,3 +1,5 @@
+# Исходный код
+``` rust
 use std::{cmp::min, str::FromStr};
 
 fn main() {
@@ -22,3 +24,6 @@ fn main() {
     //println!("{}", prefix);
     
 }
+```
+# Результат работы
+<image src="images/out.png" alt="img">
