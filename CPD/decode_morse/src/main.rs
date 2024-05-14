@@ -61,18 +61,21 @@ fn main() {
 
 
     let code = ".... . -.--   .--- ..- -.. .".to_string();
-    let arr= code.split(" ");
+    println!("{}", code);
+    
+    let arr: Vec<&str> = code.trim().split("   ").collect();
     let mut phrase = String::new();
     for i in arr{
-        let mut letter = &String::from(" ");
-        if i != ""{
-            letter = morse_code.get(i).unwrap();
+        for j in &mut i.split(" "){
+            if j != ""{
+                phrase += morse_code.get(j).unwrap();
+            }
         }
-        
-        phrase += letter;
-
+        phrase += " "
     }
-    println!("{}", phrase);
+        
+    println!("{}", phrase.trim());
+    }
+    
 
 
-}
