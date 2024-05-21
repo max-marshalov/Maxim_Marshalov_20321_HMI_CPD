@@ -8,8 +8,11 @@ from google.protobuf import wrappers_pb2
 import grpc
 import order_management_pb2
 import order_management_pb2_grpc
-
+import sys
+import signal
 import time
+import logging
+_LOGGER = logging.getLogger(__name__)
 
 
 def run():
@@ -21,16 +24,22 @@ def run():
     #Создаем объект заказа 
     order1 = order_management_pb2.Order(items=['Item - A', 'Item - B', 'Item - C'],
                                         price=2450.50,
-                                        description='This is a Sample order - 1 : description.', 
+                                        description='[delay] This is a Sample order - 1 : description.', 
                                         destination='San Jose, CA')
 
-    #Получаем заказ с сервера по id
-    order = stub.getOrder(order_management_pb2.Order(id='101'))
+    #Получаем заказ с сервера по idslee
+    try:
+        order = stub.getOrder(order_management_pb2.Order(id='0'))
+        _LOGGER.info("Call success: %s", order.id)
+    except grpc.RpcError as rpc_error:
+        _LOGGER.error("Call error: %s",  rpc_error)
+
+
     #print("Order service response", order)
 
     # Unary RPC : Adding an Order
     #Добавляем заказ в список заказов
-    response = stub.addOrder(order1)
+    response = stub.addOrder(order1, timeout = 3)
     #print('Add order response :', response)
 
     # Server Streaming
@@ -48,6 +57,10 @@ def run():
     # Bi-di Streaming 
     # На основе bi-di стриминга сервер читает данные из клиентского потока и записывает в него свои ответы
     proc_order_iterator = generate_orders_for_processing()
+    def cancel_request(unused_signum, unused_frame):
+        proc_order_iterator.cancel()
+        sys.exit(0)
+    signal.signal(signal.SIGINT, cancel_request)
     for shipment in stub.processOrders(proc_order_iterator):
         print(shipment)
 
@@ -89,7 +102,7 @@ def generate_orders_for_processing():
         destination='San Francisco, CA')
     ord3 = order_management_pb2.Order(
         id='106', price=2560, 
-        description='Updated desc', 
+        description='Updated desc',  
         destination='San Francisco, CA')
     ord4 = order_management_pb2.Order(
         id='107', price=2560, 

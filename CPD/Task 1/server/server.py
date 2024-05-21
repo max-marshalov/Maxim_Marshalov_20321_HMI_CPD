@@ -19,7 +19,12 @@ from typing import Awaitable, Callable, Optional
 import order_management_pb2
 import order_management_pb2_grpc
 import datetime
+from google.rpc import code_pb2
+from google.rpc import error_details_pb2
+from google.rpc import status_pb2
+from grpc_status import rpc_status
 
+from google.protobuf import any_pb2
 rpc_id_var = contextvars.ContextVar("rpc_id", default="default")
 
 class RPCProdInterceptor(grpc.aio.ServerInterceptor):
@@ -40,10 +45,12 @@ class RPCProdInterceptor(grpc.aio.ServerInterceptor):
         """
         data = dict(handler_call_details.invocation_metadata)
         logging.info(f"{handler_call_details.method}, {data['user-agent']}, {datetime.datetime.now()}")
+        
             
-        #logging.info("%s called with rpc_id: %s", self.tag, rpc_id_var.get())
+        logging.info("%s called with rpc_id: %s", self.tag, rpc_id_var.get())
 
         return await continuation(handler_call_details)
+    
     def decorate(self, rpc_id: str, method_name, time):
         return f"{self.tag}-{rpc_id}"
    
@@ -68,20 +75,29 @@ class ProductInfoServicer(order_management_pb2_grpc.OrderManagementServicer):
 
     # Метод для получения заказов
     #Основан на стандартном удаленном вызове, берет значение из словаря по ключу
+    def not_found_error_status(self, name):
+        detail = any_pb2.Any()
+        return status_pb2.Status(
+            code=code_pb2.INVALID_ARGUMENT,
+            message="Not found",
+            details=[detail],
+        )
+   
     def getOrder(self, request, context):
         order = self.orderDict.get(request.value)
         if order is not None: 
             return order
         else: 
             # Error handling 
-            #print('Order not found ' + request.value)
-            context.set_code(grpc.StatusCode.NOT_FOUND)
-            context.set_details('Order : ', request.value, ' Not Found.')
-            return order_management_pb2.Order()
+            rich_status = self.not_found_error_status(request.value)
+            context.abort(rpc_status.to_status(rich_status).code, rpc_status.to_status(rich_status).details)
 
     # Метод добавления заказа
     #Основан на стандартном удаленном вызове, добавляет значение в словарь по ключу
     def addOrder(self, request, context):
+        msg = request.description
+        if msg.startswith('[delay]'):
+            time.sleep(5)
         id = uuid.uuid1()
         request.id = str(id)
         self.orderDict[request.id] = request
@@ -121,6 +137,7 @@ class ProductInfoServicer(order_management_pb2_grpc.OrderManagementServicer):
         for order_id in request_iterator:
             for order in shipments:
                 yield order
+    
 
     # Функция поиска
     def searchInventory(self, query):
